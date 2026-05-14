@@ -50,9 +50,9 @@ export const createUser = async (req, res) => {
         res.cookie('token', token, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: `strict`,
-            // secure: process.env.NODE_ENV === 'production'
-        })
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production'
+        });
 
         return res.status(201).json({ message: 'User created successfully', success: true, token, newUser });
     } catch (error) {
@@ -87,9 +87,9 @@ export const loginUser = async (req, res) => {
         res.cookie('token', token, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: `strict`,
-            // secure: process.env.NODE_ENV === 'production'
-        })
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production'
+        });
 
         return res.status(201).json({ message: 'User logged in successfully', success: true, token, existUser: userWithoutPassword });
 
@@ -125,12 +125,12 @@ export const onboardedUser = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required', success: false });
         }
 
-        const updatedUser = await  User.findByIdAndUpdate(user._id, {
+        const updatedUser = await User.findByIdAndUpdate(user._id, {
             bio,
             nativelanguage,
             location,
             learningLanguage,
-            profilePic : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+            profilePic: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
             onboarded: true
         }, { new: true }).select('-password');
 
