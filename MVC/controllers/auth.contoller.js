@@ -51,7 +51,7 @@ export const createUser = async (req, res) => {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
             sameSite: `strict`,
-            secure: process.env.NODE_ENV === 'production'
+            // secure: process.env.NODE_ENV === 'production'
         })
 
         return res.status(201).json({ message: 'User created successfully', success: true, token, newUser });
@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
             sameSite: `strict`,
-            secure: process.env.NODE_ENV === 'production'
+            // secure: process.env.NODE_ENV === 'production'
         })
 
         return res.status(201).json({ message: 'User logged in successfully', success: true, token, existUser: userWithoutPassword });
@@ -156,4 +156,3 @@ export const onboardedUser = async (req, res) => {
         return res.status(500).json({ message: 'Error onboarded user', success: false });
     }
 }
-
